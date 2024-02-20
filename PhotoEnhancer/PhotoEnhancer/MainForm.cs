@@ -31,6 +31,9 @@ namespace PhotoEnhancer
         {
             applyButton.Visible = true;
 
+            if(parametersPanel != null)
+                this.Controls.Remove(parametersPanel);
+
             parametersPanel = new Panel();
 
             parametersPanel.Left = filtersComboBox.Left;
