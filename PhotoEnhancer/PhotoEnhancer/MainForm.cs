@@ -14,17 +14,18 @@ namespace PhotoEnhancer
     {
         Panel parametersPanel;
 
-        Bitmap originalBmp;
-        Bitmap resultBmp;
+        Photo originalPhoto;
+        Photo resultPhoto;
 
         public MainForm()
         {
             InitializeComponent();
 
             filtersComboBox.Items.Add("Осветление/затемнение");
-
-            originalBmp = (Bitmap)Image.FromFile("cat.jpg");
-            originalPictureBox.Image = originalBmp;
+             
+            var bmp = (Bitmap)Image.FromFile("cat.jpg");
+            originalPictureBox.Image = bmp;
+            originalPhoto = Convertors.BitmapToPhoto(bmp);
         }
 
         private void filtersComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -40,7 +41,6 @@ namespace PhotoEnhancer
             parametersPanel.Top = filtersComboBox.Bottom + 13;
             parametersPanel.Width = filtersComboBox.Width;
             parametersPanel.Height = applyButton.Top - parametersPanel.Top - 13;
-            //parametersPanel.BackColor = Color.Gray;
 
             this.Controls.Add(parametersPanel);
 
@@ -69,36 +69,27 @@ namespace PhotoEnhancer
                 inputBox.Value = 1;
                 parametersPanel.Controls.Add(inputBox);
             }
-        }
+        } 
 
         private void applyButton_Click(object sender, EventArgs e)
         {
-            var newBmp = new Bitmap(originalBmp.Width, originalBmp.Height);
+            var newPhoto = new Photo(originalPhoto.Width, originalPhoto.Height);
 
             if (filtersComboBox.SelectedItem.ToString() == "Осветление/затемнение")
             {
                 var k = (double)((parametersPanel.Controls["coefficent"] as NumericUpDown).Value);
 
-                for(var x = 0; x < originalBmp.Width; x++)
-                    for(var y = 0; y < originalBmp.Height; y++)
+                for(var x = 0; x < originalPhoto.Width; x++)
+                    for(var y = 0; y < originalPhoto.Height; y++)
                     {
-                        var pixelColor = originalBmp.GetPixel(x, y);
-
-                        var newR = (int)(pixelColor.R * k);
-                        if(newR > 255) newR = 255;
-
-                        var newG = (int)(pixelColor.G * k);
-                        if (newG > 255) newG = 255;
-
-                        var newB = (int)(pixelColor.B * k);
-                        if (newB > 255) newB = 255;
-
-                        newBmp.SetPixel(x, y, Color.FromArgb(newR, newG, newB));                      
+                        newPhoto[x,y].R = Convertors.TrimChannel(originalPhoto[x, y].R * k);
+                        newPhoto[x,y].G = Convertors.TrimChannel(originalPhoto[x, y].G * k);
+                        newPhoto[x,y].B = Convertors.TrimChannel(originalPhoto[x, y].B * k);
                     }               
             }
 
-            resultBmp = newBmp;
-            resultPictureBox.Image = resultBmp;
+            resultPhoto = newPhoto;
+            resultPictureBox.Image = Convertors.PhotoToBitmap(resultPhoto);
         }
     }
 }
