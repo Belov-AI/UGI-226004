@@ -17,9 +17,16 @@ namespace PhotoEnhancer
                 for (int y = 0; y < bmp.Height; y++) 
                 {
                     var p = bmp.GetPixel(x, y);
-                    photo[x,y].R = p.R / 255.0;
-                    photo[x,y].G = p.G / 255.0;
-                    photo[x,y].B = p.B / 255.0;
+
+                    photo[x, y] = new Pixel(
+                        p.R / 255.0,
+                        p.G / 255.0,
+                        p.B / 255.0
+                        );  
+
+                    //photo[x,y].R = p.R / 255.0;
+                    //photo[x,y].G = p.G / 255.0;
+                    //photo[x,y].B = p.B / 255.0;
                 }
 
             return photo;
@@ -40,15 +47,6 @@ namespace PhotoEnhancer
                         );
 
             return bmp;
-        }
-
-        public static double TrimChannel(double channel)
-        {
-            if ( channel < 0) return 0;
-
-            if (channel > 1) return 1;
-
-            return channel;
         }
     }
 }

@@ -82,10 +82,8 @@ namespace PhotoEnhancer
                 for(var x = 0; x < originalPhoto.Width; x++)
                     for(var y = 0; y < originalPhoto.Height; y++)
                     {
-                        newPhoto[x,y].R = Convertors.TrimChannel(originalPhoto[x, y].R * k);
-                        newPhoto[x,y].G = Convertors.TrimChannel(originalPhoto[x, y].G * k);
-                        newPhoto[x,y].B = Convertors.TrimChannel(originalPhoto[x, y].B * k);
-                    }               
+                        newPhoto[x, y] = originalPhoto[x, y] * k;
+                    }                
             }
 
             resultPhoto = newPhoto;
