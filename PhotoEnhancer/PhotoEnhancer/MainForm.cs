@@ -22,13 +22,23 @@ namespace PhotoEnhancer
         {
             InitializeComponent();
                          
-            var bmp = (Bitmap)Image.FromFile("cat.jpg");
-            originalPictureBox.Image = bmp;
-            originalPhoto = Convertors.BitmapToPhoto(bmp);
+            //var bmp = (Bitmap)Image.FromFile("cat.jpg");
+            //originalPictureBox.Image = bmp;
+            //originalPhoto = Convertors.BitmapToPhoto(bmp);
         }
 
         private void filtersComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            if(resultPhoto != null)
+            {
+                originalPhoto = resultPhoto;
+                originalPictureBox.Image = Convertors.PhotoToBitmap(originalPhoto);
+                resultPhoto = null;
+                resultPictureBox.Image = null;
+
+            }
+
             applyButton.Visible = true;
 
             if(parametersPanel != null)
@@ -97,6 +107,43 @@ namespace PhotoEnhancer
         {
             if(filter != null)
                 filtersComboBox.Items.Add(filter);
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(openPhotoDialog.ShowDialog() == DialogResult.OK)
+            {
+                filtersComboBox.Visible = true;
+
+                var bmp = (Bitmap)Image.FromFile(openPhotoDialog.FileName);
+                originalPictureBox.Image = bmp;
+                originalPhoto = Convertors.BitmapToPhoto(bmp);
+
+                resultPictureBox.Image = null;
+                resultPhoto = null;
+            }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(savePhotoDialog.ShowDialog() == DialogResult.OK)
+            {
+                var bmp = Convertors.PhotoToBitmap(resultPhoto);
+
+                System.Drawing.Imaging.ImageFormat format;
+
+                if (savePhotoDialog.FilterIndex == 0)
+                    format = System.Drawing.Imaging.ImageFormat.Jpeg;
+                else
+                    format = System.Drawing.Imaging.ImageFormat.Tiff;
+
+                bmp.Save(savePhotoDialog.FileName, format);
+            }
         }
     }
 }
