@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace PhotoEnhancer
 {
-    public class LighteningFilter : IFilter
+    public class LighteningFilter : PixelFilter
     {
-        public ParameterInfo[] GetParametersInfo()
+        public override ParameterInfo[] GetParametersInfo()
         {
             return new[]
             {
@@ -23,15 +23,9 @@ namespace PhotoEnhancer
             };
         }
 
-        public Photo Process(Photo original, double[] parameters)
+        public override Pixel ProcessPixel(Pixel p, double[] parameters)
         {
-            var newPhoto = new Photo(original.Width, original.Height);
-
-            for (var x = 0; x < original.Width; x++)
-                for (var y = 0; y < original.Height; y++)
-                    newPhoto[x, y] = original[x, y] * parameters[0];
-
-            return newPhoto;
+            return p * parameters[0];
         }
 
         public override string ToString()
