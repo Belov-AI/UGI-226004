@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleStruct", "AngleStruct\AngleStruct.csproj", "{2088B0BD-6B5C-4EC8-8BF5-7F6CE0EA2F6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleStruct.UnitTests", "AngleStruct.UnitTests\AngleStruct.UnitTests.csproj", "{8A2F4287-3632-4EBA-91F6-8A8CC8533980}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2088B0BD-6B5C-4EC8-8BF5-7F6CE0EA2F6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2088B0BD-6B5C-4EC8-8BF5-7F6CE0EA2F6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2088B0BD-6B5C-4EC8-8BF5-7F6CE0EA2F6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2088B0BD-6B5C-4EC8-8BF5-7F6CE0EA2F6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A2F4287-3632-4EBA-91F6-8A8CC8533980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A2F4287-3632-4EBA-91F6-8A8CC8533980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A2F4287-3632-4EBA-91F6-8A8CC8533980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A2F4287-3632-4EBA-91F6-8A8CC8533980}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A768D1CE-8980-4AC4-A9FB-1E405055EE1B}
+	EndGlobalSection
+EndGlobal
