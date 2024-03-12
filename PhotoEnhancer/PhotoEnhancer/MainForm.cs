@@ -16,13 +16,12 @@ namespace PhotoEnhancer
 
         Photo originalPhoto;
         Photo resultPhoto;
+        List<NumericUpDown> numericUpDowns;
 
         public MainForm()
         {
             InitializeComponent();
-
-            filtersComboBox.Items.Add("Осветление/затемнение");
-             
+                         
             var bmp = (Bitmap)Image.FromFile("cat.jpg");
             originalPictureBox.Image = bmp;
             originalPhoto = Convertors.BitmapToPhoto(bmp);
@@ -44,14 +43,21 @@ namespace PhotoEnhancer
 
             this.Controls.Add(parametersPanel);
 
-            if(filtersComboBox.SelectedItem.ToString() == "Осветление/затемнение")
+            var filter = filtersComboBox.SelectedItem as IFilter;
+
+            if(filter == null) return;
+
+            var parametersInfo = filter.GetParametersInfo();
+            numericUpDowns = new List<NumericUpDown>();
+
+            for(var i = 0; i < parametersInfo.Length; i++)
             {
                 var label = new Label();
-                label.Left = 0;
-                label.Top = 0;
-                label.Width = parametersPanel.Width - 50;
                 label.Height = 28;
-                label.Text = "Коэффициент";
+                label.Left = 0;
+                label.Top = i * (label.Height + 10);
+                label.Width = parametersPanel.Width - 50;                
+                label.Text = parametersInfo[i].Name;
                 label.Font = new Font(label.Font.FontFamily, 10);
                 parametersPanel.Controls.Add(label);
 
@@ -61,33 +67,36 @@ namespace PhotoEnhancer
                 inputBox.Width = 45;
                 inputBox.Height = label.Height;
                 inputBox.Font = new Font(inputBox.Font.FontFamily, 10);
-                inputBox.Minimum = 0;
-                inputBox.Maximum = 10;
-                inputBox.Increment = (decimal)0.05;
+                inputBox.Minimum = (decimal)parametersInfo[i].MinValue;
+                inputBox.Maximum = (decimal)parametersInfo[i].MaxValue;
+                inputBox.Increment = (decimal)parametersInfo[i].Increment;
                 inputBox.DecimalPlaces = 2;
-                inputBox.Name = "coefficent";
-                inputBox.Value = 1;
+                inputBox.Value = (decimal)parametersInfo[i].DefaultValue;
                 parametersPanel.Controls.Add(inputBox);
+                numericUpDowns.Add(inputBox);
             }
         } 
 
         private void applyButton_Click(object sender, EventArgs e)
         {
-            var newPhoto = new Photo(originalPhoto.Width, originalPhoto.Height);
+            var filter = filtersComboBox.SelectedItem as IFilter;
 
-            if (filtersComboBox.SelectedItem.ToString() == "Осветление/затемнение")
+            if(filter != null)
             {
-                var k = (double)((parametersPanel.Controls["coefficent"] as NumericUpDown).Value);
+                var parameters = new double[numericUpDowns.Count];
 
-                for(var x = 0; x < originalPhoto.Width; x++)
-                    for(var y = 0; y < originalPhoto.Height; y++)
-                    {
-                        newPhoto[x, y] = originalPhoto[x, y] * k;
-                    }                
+                for(var i = 0; i < parameters.Length; i++)
+                    parameters[i] = (double)numericUpDowns[i].Value;
+
+                resultPhoto = filter.Process(originalPhoto, parameters);
+                resultPictureBox.Image = Convertors.PhotoToBitmap(resultPhoto);
             }
+        }
 
-            resultPhoto = newPhoto;
-            resultPictureBox.Image = Convertors.PhotoToBitmap(resultPhoto);
+        public void AddFilter(IFilter filter)
+        {
+            if(filter != null)
+                filtersComboBox.Items.Add(filter);
         }
     }
 }
