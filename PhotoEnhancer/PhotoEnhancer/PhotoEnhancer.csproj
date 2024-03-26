@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Data\Convertors.cs" />
     <Compile Include="Data\Photo.cs" />
+    <Compile Include="Data\PixelHSL.cs" />
     <Compile Include="Data\Pixel.cs" />
     <Compile Include="Filters\EmptyParameters.cs" />
     <Compile Include="Filters\GrayScaleFilter.cs" />

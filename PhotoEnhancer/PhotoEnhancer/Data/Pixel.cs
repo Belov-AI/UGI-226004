@@ -8,11 +8,11 @@ namespace PhotoEnhancer
 {
     public struct Pixel
     {
-        private double r;
+        private double h;
         public double R
         {
-            get => r;
-            set => r = CheckValue(value);
+            get => h;
+            set => h = CheckValue(value);
         }
 
         private double g;
